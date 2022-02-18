@@ -1,0 +1,30 @@
+// fonts
+$fontMain: "Montserrat",
+-apple-system,
+Arial,
+"Segoe UI",
+sans-serif;
+$fontSecondary: -apple-system,
+Arial,
+"Segoe UI",
+sans-serif;
+
+// colors
+$mainColor: #313131;
+$accent: #ff6363;
+$white: white;
+
+// container
+@use "sass:math";
+$containerWidth: 1100;
+$containerPadding: 30;
+$containerSidePadding: math.div($containerPadding, 2);
+$breakpoint1400: 1339.98+px;
+$breakpoint992: 991.98+px;
+$breakpoint768: 767.98+px;
+$breakpoint480: 479.98+px;
+
+// burger
+$breakpointBurger: $breakpoint992;
+$burgerActiveColor: $accent;
+$menuColor: $white;

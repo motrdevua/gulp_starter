@@ -1,0 +1,19 @@
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: rgba(73, 82, 92, .25);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: $mainColor;
+  -webkit-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border-radius: 8px;
+  background: $accent;
+  -webkit-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
+}

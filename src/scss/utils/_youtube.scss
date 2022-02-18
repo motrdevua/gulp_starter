@@ -1,0 +1,101 @@
+.video {
+  position: relative;
+  z-index: 1;
+  padding-bottom: 56.25%;
+  width: 100%;
+  height: 0;
+  border-radius: 10px;
+  background: #000000;
+
+  &--enabled {
+    cursor: pointer;
+  }
+
+  &--enabled .video__button {
+    display: flex;
+  }
+
+  &__media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+  }
+
+  &__button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+    display: none;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: transparent;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    transition: all .2s cubic-bezier(.455, .030, .515, .955);
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+  }
+
+  & .play {
+    &__circle {
+      transition: all .2s cubic-bezier(.455, .030, .515, .955);
+      -webkit-transform-origin: 50% 50% 0;
+              transform-origin: 50% 50% 0;
+
+      fill: $mainColor;
+      fill-opacity: .75;
+      stroke: $mainColor;
+      stroke-width: 4px;
+    }
+
+    &__triangle {
+      transition: all .3s cubic-bezier(.455, .030, .515, .955);
+      -webkit-transform: rotate(0) scale(1);
+              transform: rotate(0) scale(1);
+      -webkit-transform-origin: 50% 50% 0;
+              transform-origin: 50% 50% 0;
+
+      fill: $white;
+      fill-opacity: .9;
+      stroke: $mainColor;
+      stroke-width: 0;
+    }
+  }
+
+  &:hover .play__triangle {
+    transition: all .3s cubic-bezier(.455, .030, .515, .955);
+    -webkit-transform: rotate(0deg) scale(1.2);
+            transform: rotate(0deg) scale(1.2);
+    -webkit-transform-origin: 50% 50% 0;
+            transform-origin: 50% 50% 0;
+
+    fill: $accent;
+    fill-opacity: .5;
+    stroke-width: 1px;
+  }
+
+  &:hover .play__circle {
+    transition: all .2s cubic-bezier(.455, .030, .515, .955);
+
+    stroke-width: 12px;
+  }
+
+  &:hover .video__button {
+    box-shadow: 0 0 20px 0 rgba($mainColor, .35);
+    transition: all .2s cubic-bezier(.455, .030, .515, .955);
+  }
+
+  &__link:focus, &__link:active, &__button:focus, &__button:active {
+    outline: 0;
+  }
+}
