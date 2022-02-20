@@ -1,3 +1,7 @@
+// import $ from 'jquery';
+// window.$ = $;
+// window.jQuery = $;
+
 import * as check from './modules/iswebp.js';
 import * as navbar from './modules/navbar.js';
 import * as scroll from './modules/smoothscroll.js';

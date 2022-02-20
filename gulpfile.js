@@ -29,6 +29,11 @@ import zipPlugin from 'gulp-zip';
 import util from 'gulp-util';
 import vinylFtp from 'vinyl-ftp';
 import ftpconfig from './ftpconfig.js';
+import rollup from 'gulp-better-rollup';
+import babel from 'rollup-plugin-babel';
+import resolve from 'rollup-plugin-node-resolve';
+import commonjs from 'rollup-plugin-commonjs';
+import terser from 'gulp-terser';
 
 const rootFolder = nodePath.basename(nodePath.resolve());
 
@@ -169,22 +174,36 @@ const scss = () => {
  * JS
  */
 const js = () => {
-  return src(path.src.js, { sourcemaps: true })
-    .pipe(plumber({ errorHandler: onError }))
-    .pipe(
-      webpack({
-        mode: 'production',
-        output: {
-          filename: 'app.min.js',
-        },
-      })
-    )
-    .pipe(dest(path.build.js))
-    .pipe(
-      browsersync.reload({
-        stream: true,
-      })
-    );
+  return (
+    src(path.src.js, { sourcemaps: true })
+      .pipe(plumber({ errorHandler: onError }))
+      .pipe(rollup({ plugins: [babel(), resolve(), commonjs()] }, 'umd'))
+      // .pipe(
+      //   webpack({
+      //     mode: 'production',
+      //     output: {
+      //       filename: 'app.min.js',
+      //     },
+      //   })
+      // )
+      .pipe(
+        rename({
+          suffix: '.min',
+        })
+      )
+      .pipe(
+        terser({
+          keep_fnames: true,
+          mangle: false,
+        })
+      )
+      .pipe(dest(path.build.js))
+      .pipe(
+        browsersync.reload({
+          stream: true,
+        })
+      )
+  );
 };
 
 /**
@@ -317,6 +336,10 @@ const copy = () => {
   return src(path.src.files).pipe(dest(path.build.files));
 };
 
+const copyHtaccess = () => {
+  return src(`${path.srcFolder}/.htaccess`).pipe(dest(path.buildFolder));
+};
+
 /**
  * ZIP
  */
@@ -354,7 +377,11 @@ const watcher = () => {
 /**
  * Main tasks
  */
-const mainTasks = series(fonts, parallel(copy, html, scss, js, img));
+const mainTasks = series(
+  fonts,
+  parallel(copy, html, scss, js, img),
+  copyHtaccess
+);
 
 /**
  * Building task scripts
