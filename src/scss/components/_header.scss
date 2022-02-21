@@ -11,7 +11,7 @@
 
 .navbar {
   padding: 15px 0;
-  background: lighten(green, 60);
+  background: lighten($accent, 40);
   transition: all .3s ease-in-out;
 
   &.fixed {

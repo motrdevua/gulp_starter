@@ -55,9 +55,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "sass": "^1.49.7",
     "vinyl-ftp": "^0.6.1",
-    "webp-converter": "2.2.3",
-    "webpack": "^5.68.0",
-    "webpack-stream": "^7.0.0"
+    "webp-converter": "2.2.3"
   },
   "dependencies": {
     "jquery": "^3.6.0"

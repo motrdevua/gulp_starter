@@ -15,7 +15,6 @@ import imagemin from 'gulp-imagemin';
 import fileInclude from 'gulp-file-include';
 import webpHtmlNosvg from 'gulp-webp-html-nosvg';
 import versionNumber from 'gulp-version-number';
-import webpack from 'webpack-stream';
 import dartSass from 'sass';
 import gulpSass from 'gulp-sass';
 import cleanCss from 'gulp-clean-css';
@@ -174,36 +173,37 @@ const scss = () => {
  * JS
  */
 const js = () => {
-  return (
-    src(path.src.js, { sourcemaps: true })
-      .pipe(plumber({ errorHandler: onError }))
-      .pipe(rollup({ plugins: [babel(), resolve(), commonjs()] }, 'umd'))
-      // .pipe(
-      //   webpack({
-      //     mode: 'production',
-      //     output: {
-      //       filename: 'app.min.js',
-      //     },
-      //   })
-      // )
-      .pipe(
-        rename({
-          suffix: '.min',
-        })
+  return src(path.src.js, { sourcemaps: true })
+    .pipe(plumber({ errorHandler: onError }))
+    .pipe(
+      rollup(
+        {
+          plugins: [
+            babel({ babelrc: false, exclude: 'node_modules/**' }),
+            resolve(),
+            commonjs(),
+          ],
+        },
+        'umd'
       )
-      .pipe(
-        terser({
-          keep_fnames: true,
-          mangle: false,
-        })
-      )
-      .pipe(dest(path.build.js))
-      .pipe(
-        browsersync.reload({
-          stream: true,
-        })
-      )
-  );
+    )
+    .pipe(
+      terser({
+        keep_fnames: true,
+        mangle: false,
+      })
+    )
+    .pipe(
+      rename({
+        suffix: '.min',
+      })
+    )
+    .pipe(dest(path.build.js))
+    .pipe(
+      browsersync.reload({
+        stream: true,
+      })
+    );
 };
 
 /**
