@@ -1,0 +1,147 @@
+.menu {
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  flex: 1 0 auto;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  gap: 5px;
+
+  &__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__item-link {
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    color: $white;
+    white-space: nowrap;
+    transition: all .3s ease-in-out;
+
+    gap: 5px;
+
+    & svg {
+      width: 10px;
+      height: 5px;
+      transition: all .3s ease-in-out;
+
+      fill: $white;
+    }
+
+    &:hover {
+      color: $accent;
+      transition: all .3s ease-in-out;
+
+      & svg {
+        transition: all .3s ease-in-out;
+
+        fill: $accent;
+      }
+    }
+
+    &.active {
+      color: $accent;
+
+      & svg {
+        transition: all .3s ease-in-out;
+        -webkit-transform: rotate(-180deg);
+                transform: rotate(-180deg);
+
+        fill: $accent;
+      }
+    }
+  }
+}
+
+.submenu {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  z-index: 1;
+  display: none;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: 0 0 4px 4px;
+  background: lighten($accent, 40);
+  transition: all .3s ease-in-out;
+  -webkit-transform: translateY(-20%);
+          transform: translateY(-20%);
+
+  &.active {
+    display: flex;
+    transition: all .3s ease-in-out;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+
+  & .menu__item {
+    margin: 0;
+    width: 100%;
+
+    & .menu__item-link {
+      padding: 10px 15px 10px 10px;
+      width: 100%;
+    }
+
+    &:not(:last-child) {
+      & .menu__item-link {
+        border-bottom: 1px dashed $white;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $breakpointBurger) {
+  .menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    visibility: hidden;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background: rgba($mainColor, 1);
+    transition: all .4s ease-in-out;
+    -webkit-animation: fade-out .3s cubic-bezier(.390, .575, .565, 1.000) both;
+            animation: fade-out .3s cubic-bezier(.390, .575, .565, 1.000) both;
+    pointer-events: all;
+
+    &__item {
+      margin: 10px 0;
+      opacity: 0;
+      transition: all .3s cubic-bezier(.390, .575, .565, 1.000);
+      -webkit-transform: translateY(100%);
+              transform: translateY(100%);
+    }
+
+    &.active {
+      visibility: visible;
+      transition: all .3s ease-in-out;
+      -webkit-animation: fade-in .3s cubic-bezier(.390, .575, .565, 1.000) both;
+              animation: fade-in .3s cubic-bezier(.390, .575, .565, 1.000) both;
+    }
+  }
+
+  .menu.active .menu__item {
+    opacity: 1;
+    transition: all .3s cubic-bezier(.390, .575, .565, 1.000);
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+
+    @for $i from 1 to 10 {
+      &:nth-child(#{$i}) {
+        transition-delay: $i * .1s;
+      }
+    }
+  }
+}

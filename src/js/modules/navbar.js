@@ -48,3 +48,18 @@ export function fixedNavbar() {
   window.addEventListener('load', fixed);
   window.addEventListener('scroll', fixed);
 }
+
+export function multiLevelMenu() {
+  const menuItemLinks = document.querySelectorAll('.menu__item-link');
+  const submenus = document.querySelectorAll('.submenu');
+  for (const menuItemLink of menuItemLinks) {
+    menuItemLink.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      this.classList.toggle('active');
+      for (let sibling of this.parentNode.children) {
+        if (sibling !== this) sibling.classList.toggle('active');
+      }
+    });
+  }
+}

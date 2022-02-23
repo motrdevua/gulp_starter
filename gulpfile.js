@@ -33,6 +33,10 @@ import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import terser from 'gulp-terser';
+import sourcemaps from 'gulp-sourcemaps';
+import environments from 'gulp-environments';
+
+const dev = environments.development;
 
 const rootFolder = nodePath.basename(nodePath.resolve());
 
@@ -137,6 +141,7 @@ const html = () => {
 const sass = gulpSass(dartSass);
 const scss = () => {
   return src(path.src.scss)
+    .pipe(dev(sourcemaps.init()))
     .pipe(plumber({ errorHandler: onError }))
     .pipe(replace(/@img\//g, '../img/'))
     .pipe(
@@ -165,6 +170,7 @@ const scss = () => {
         extname: '.min.css',
       })
     )
+    .pipe(dev(sourcemaps.write('.')))
     .pipe(dest(path.build.css))
     .pipe(browsersync.stream());
 };
@@ -174,6 +180,7 @@ const scss = () => {
  */
 const js = () => {
   return src(path.src.js, { sourcemaps: true })
+    .pipe(dev(sourcemaps.init()))
     .pipe(plumber({ errorHandler: onError }))
     .pipe(
       rollup(
@@ -198,6 +205,7 @@ const js = () => {
         suffix: '.min',
       })
     )
+    .pipe(dev(sourcemaps.write('.')))
     .pipe(dest(path.build.js))
     .pipe(
       browsersync.reload({

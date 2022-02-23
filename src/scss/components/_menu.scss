@@ -1,0 +1,71 @@
+.menu {
+  display: flex;
+  align-items: center;
+  flex: 1 0 auto;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  &__item {
+    margin: 0 0 0 30px;
+  }
+
+  &__item-link {
+    transition: all .3s ease-in-out;
+
+    @include link-underline($accent);
+
+    &:hover {
+      color: $accent;
+      transition: all .3s ease-in-out;
+    }
+  }
+}
+
+@media screen and (max-width: $breakpointBurger) {
+  .menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    visibility: hidden;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background: rgba($mainColor, 1);
+    transition: all .4s ease-in-out;
+    -webkit-animation: fade-out .3s cubic-bezier(.390, .575, .565, 1.000) both;
+            animation: fade-out .3s cubic-bezier(.390, .575, .565, 1.000) both;
+    pointer-events: all;
+
+    &__item {
+      margin: 10px 0;
+      opacity: 0;
+      transition: all .3s cubic-bezier(.390, .575, .565, 1.000);
+      -webkit-transform: translateY(100%);
+              transform: translateY(100%);
+    }
+
+    &.active {
+      visibility: visible;
+      transition: all .3s ease-in-out;
+      -webkit-animation: fade-in .3s cubic-bezier(.390, .575, .565, 1.000) both;
+              animation: fade-in .3s cubic-bezier(.390, .575, .565, 1.000) both;
+    }
+  }
+
+  .menu.active .menu__item {
+    opacity: 1;
+    transition: all .3s cubic-bezier(.390, .575, .565, 1.000);
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+
+    @for $i from 1 to 10 {
+      &:nth-child(#{$i}) {
+        transition-delay: $i * .1s;
+      }
+    }
+  }
+}
